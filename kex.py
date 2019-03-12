@@ -17,7 +17,7 @@ g2.add_vertices(6)
 g2.add_edges([(0,1), (1,2), (2,3), (3,4), (4,5), (5,0), (2,5)])
 g2.vs["value"] = [3, 3, 2, 2, 1, 1]
 
-# Error marging
+# Error margin
 err = 0.3
 
 def consensus(g, target):

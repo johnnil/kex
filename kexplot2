@@ -20,7 +20,7 @@ width="400px" height="400px"> <defs id="defs3">
 <g inkscape:groupmode="layer" id="layer2" inkscape:label="Lines" sodipodi:insensitive="true">
 <path
     style="fill:none;stroke:black;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-    d="M 354.554808195,10.0 388.694641854,269.298335028"
+    d="M 81.5428435646,10.0 13.4034790556,198.252711098"
     id="path0"
     inkscape:connector-type="polyline"
     inkscape:connector-curvature="0"
@@ -30,7 +30,7 @@ width="400px" height="400px"> <defs id="defs3">
     inkscape:connection-end-point="d4" />
 <path
     style="fill:none;stroke:black;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-    d="M 390.0,279.212770973 227.799159069,341.753325548"
+    d="M 10.0,207.655706914 152.121330983,298.493087377"
     id="path1"
     inkscape:connector-type="polyline"
     inkscape:connector-curvature="0"
@@ -40,7 +40,7 @@ width="400px" height="400px"> <defs id="defs3">
     inkscape:connection-end-point="d4" />
 <path
     style="fill:none;stroke:black;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-    d="M 218.46870553,345.350913177 53.4749257541,387.523597983"
+    d="M 160.547280942,303.878564821 307.746104422,385.165846841"
     id="path2"
     inkscape:connector-type="polyline"
     inkscape:connector-curvature="0"
@@ -50,7 +50,7 @@ width="400px" height="400px"> <defs id="defs3">
     inkscape:connection-end-point="d4" />
 <path
     style="fill:none;stroke:black;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-    d="M 43.7864050698,390.0 11.2322991094,127.839757062"
+    d="M 316.500015732,390.0 386.513463329,201.789680782"
     id="path3"
     inkscape:connector-type="polyline"
     inkscape:connector-curvature="0"
@@ -60,7 +60,7 @@ width="400px" height="400px"> <defs id="defs3">
     inkscape:connection-end-point="d4" />
 <path
     style="fill:none;stroke:black;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-    d="M 10.0,117.91597558 173.210800061,68.6741011944"
+    d="M 390.0,192.417164469 245.255379081,102.331486859"
     id="path4"
     inkscape:connector-type="polyline"
     inkscape:connector-curvature="0"
@@ -70,7 +70,7 @@ width="400px" height="400px"> <defs id="defs3">
     inkscape:connection-end-point="d4" />
 <path
     style="fill:none;stroke:black;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-    d="M 354.554808195,10.0 192.295539405,62.6967586767"
+    d="M 81.5428435646,10.0 228.043286568,92.1562330367"
     id="path5"
     inkscape:connector-type="polyline"
     inkscape:connector-curvature="0"
@@ -80,7 +80,7 @@ width="400px" height="400px"> <defs id="defs3">
     inkscape:connection-end-point="d4" />
 <path
     style="fill:none;stroke:black;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-    d="M 218.46870553,345.350913177 184.050695907,75.7051512544"
+    d="M 160.547280942,303.878564821 233.307660307,106.43070051"
     id="path6"
     inkscape:connector-type="polyline"
     inkscape:connector-curvature="0"
@@ -92,32 +92,32 @@ width="400px" height="400px"> <defs id="defs3">
 
   <g inkscape:label="Nodes"                     inkscape:groupmode="layer" id="layer1">
   <!-- Vertices -->
-    <g id="g0" transform="translate(354.554808195,10.0)">
+    <g id="g0" transform="translate(81.5428435646,10.0)">
      <circle cx="0" cy="0" r="10" fill="red"/>
       <text sodipodi:linespacing="125%" y="5.0" x="0" id="text0" style="font-size:16pxpx;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans">
 <tspan y="5.0" x="0" id="tspan0" sodipodi:role="line">1.82881622518</tspan></text>
     </g>
-    <g id="g1" transform="translate(390.0,279.212770973)">
+    <g id="g1" transform="translate(10.0,207.655706914)">
      <circle cx="0" cy="0" r="10" fill="red"/>
       <text sodipodi:linespacing="125%" y="5.0" x="0" id="text1" style="font-size:16pxpx;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans">
 <tspan y="5.0" x="0" id="tspan1" sodipodi:role="line">1.80824599961</tspan></text>
     </g>
-    <g id="g2" transform="translate(218.46870553,345.350913177)">
+    <g id="g2" transform="translate(160.547280942,303.878564821)">
      <circle cx="0" cy="0" r="10" fill="red"/>
       <text sodipodi:linespacing="125%" y="5.0" x="0" id="text2" style="font-size:16pxpx;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans">
 <tspan y="5.0" x="0" id="tspan2" sodipodi:role="line">1.75962145409</tspan></text>
     </g>
-    <g id="g3" transform="translate(43.7864050698,390.0)">
+    <g id="g3" transform="translate(316.500015732,390.0)">
      <circle cx="0" cy="0" r="10" fill="red"/>
       <text sodipodi:linespacing="125%" y="5.0" x="0" id="text3" style="font-size:16pxpx;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans">
 <tspan y="5.0" x="0" id="tspan3" sodipodi:role="line">1.72291455818</tspan></text>
     </g>
-    <g id="g4" transform="translate(10.0,117.91597558)">
+    <g id="g4" transform="translate(390.0,192.417164469)">
      <circle cx="0" cy="0" r="10" fill="red"/>
       <text sodipodi:linespacing="125%" y="5.0" x="0" id="text4" style="font-size:16pxpx;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans">
 <tspan y="5.0" x="0" id="tspan4" sodipodi:role="line">1.74011164028</tspan></text>
     </g>
-    <g id="g5" transform="translate(182.784552727,65.7856310317)">
+    <g id="g5" transform="translate(236.765401336,97.0475226383)">
      <circle cx="0" cy="0" r="10" fill="red"/>
       <text sodipodi:linespacing="125%" y="5.0" x="0" id="text5" style="font-size:16pxpx;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans">
 <tspan y="5.0" x="0" id="tspan5" sodipodi:role="line">1.77734911763</tspan></text>
