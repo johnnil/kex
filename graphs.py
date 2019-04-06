@@ -18,7 +18,13 @@ tools.randomize_pos_and_cost(john)
 #####
 
 #####
-star = nx.star_graph(15)
-tools.randomize_pos_and_cost(star)
+# Star-15
+star_15 = nx.star_graph(15)
+tools.randomize_pos_and_cost(star_15)
 #####
 
+####
+# Star-6
+star_6 = nx.star_graph(6)
+tools.randomize_pos_and_cost(star_6)
+####

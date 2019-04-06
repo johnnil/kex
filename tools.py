@@ -54,8 +54,10 @@ def generate_A(graph):
 
     return A
 
-def calc_distance(john, pos):
-    return [np.linalg.norm(np.array(pos[v1]) - np.array(pos[v2])) for (v1, v2) in john.edges()]
+def calc_distance(graph, pos):
+    #overhead cost of preparing any signal
+    overhead = 100
+    return [overhead + np.linalg.norm(np.array(pos[v1]) - np.array(pos[v2])) for (v1, v2) in graph.edges()]
 
 def randomize_pos_and_cost(john):
     pos = generate_pos(john)
@@ -110,39 +112,6 @@ def sec_larg_eig(A):
     eig_list, _  = np.linalg.eig(A)
     return second_largest(eig_list)
 
-### Finding best edge(s) ###
-
-def find_best_edge(graph_0, A_0, depth=1, all_edges=None, min_eigen=1):
-    best_graph = graph_0
-    best_edge_s = None
-
-    if (all_edges == None):
-        all_edges = generate_all_edges(graph_0, A_0)
-
-    for i, e in enumerate(all_edges):
-        # add potential edge
-        graph, A = add_edge(e[0], e[1], A_0, graph_0)
-
-        if depth > 1 and i + 1 < len(all_edges):
-            eig_value, graph, e2 = find_best_edge(graph, A, depth - 1, all_edges[i + 1:])
-            
-            # Debug statement
-            if e2==None:
-                print(all_edges)
-                print(i)
-            
-            e2.append(e)
-            e = e2
-        else:
-            eig_value = sec_larg_eig(A)
-
-        if eig_value < min_eigen:
-            min_eigen = eig_value
-            best_graph = graph
-            best_edge_s = e if type(e) == list else [e]
-
-    return min_eigen, best_graph, best_edge_s
-
 ### Prints and plots ###
 
 def print_graph(graph, edge=None):
@@ -168,7 +137,7 @@ def second_largest(l):
         if i > largest:
             largest2 = largest
             largest = i
-        elif i > largest2 or largest2 == None:
+        elif largest2 == None or i > largest2:
             largest2 = i
     
     return largest2
