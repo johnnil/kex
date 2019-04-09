@@ -9,61 +9,81 @@ import graphs
 import algs
 
 ### Exhaustive search test ###
-def exhaustive_test(graph, depth=None):
+def exhaustive_test(graph, depth=None, func=tools.sec_larg_eig):
     A = tools.generate_A(graph)
-    top_eig = tools.sec_larg_eig(A)
+    init_val = func(graph, A)
     eig = 1 # initial eig
-    eig_list = []
+    val_list = []
 
     if depth != None:
-        s_largest, best_graph, best_edge, _ = algs.exhaustive(graph, A, depth, min_eigen=eig)
+        s_largest, best_graph, best_edge, _ = algs.exhaustive(graph, A, depth, func=func)
         print_details(s_largest, best_graph, best_edge)
     else:
         all_edges = tools.generate_all_edges(graph, A)
         n = len(all_edges)
         top_n = 0
-        print_details(top_eig, graph, None, print_it=False)
-        eig_list.append(top_eig)
+        print_details(init_val, graph, None, print_it=False)
+        val_list.append(init_val)
 
         for i in range(1, n + 1):
-            eig, best_graph, best_edge, _ = algs.exhaustive(graph, A, i, min_eigen=1)
-            print_details(eig, best_graph, best_edge, print_it=False)
-            eig_list.append(eig)
+            val, best_graph, best_edge, _ = algs.exhaustive(graph, A, i, func=func)
+            print_details(val, best_graph, best_edge, print_it=False)
+            val_list.append(val)
             
-            if eig < top_eig:
-                top_eig = eig
-                top_n = i
-            else:
-                print("No graph with " + str(i) + " added edge(s) (" + str(best_graph.number_of_edges() + i) + " edges total) was significantly better than the best with " + str(top_n) + ".")
-        
-        return eig_list 
+    return val_list
 
 ### Greedy search test ###
-def greedy_test(graph, depth=None):
+def greedy_test(graph, depth=None, func=tools.sec_larg_eig):
     A = tools.generate_A(graph)
     all_edges = tools.generate_all_edges(graph, A)
-    init_eig = tools.sec_larg_eig(A)
-    eig_list = [init_eig]
+    init_val = func(graph, A)
+    val_list = [init_val]
     
     if depth != None:
-        eig, graph, edge_list = algs.greedy(graph, A, depth)
+        eig, graph, edge_list, A = algs.greedy(graph, A, depth)
         print_details(eig, graph, edge_list, print_it=True)
     else:
         for i in range(1, len(all_edges) + 1):
-            eig, new_graph, edge_list = algs.greedy(graph, A, i)
-            print_details(eig, new_graph, edge_list, print_it=False)
-            eig_list.append(eig)
+            val, graph, edge_list, A = algs.greedy(graph, A, func=func)
+            #print_details(val, graph, edge_list, print_it=False)
+            val_list.append(val)
         
-        return eig_list
+    return np.asarray(val_list)
+
+### Random search test ###
+def random_test(graph, depth=None, func=tools.sec_larg_eig):
+    A = tools.generate_A(graph)
+    all_edges = tools.generate_all_edges(graph, A)
+    init_val = func(graph, A)
+    val_list = [init_val]
+    if depth == None:
+        depth = len(all_edges)+1
+
+    for i in range(1, depth):
+        val, graph, edge_list, A = algs.random(graph, A, func=func)
+        #print_details(val, graph, edge_list, print_it=False)
+        val_list.append(val)
+    
+    return np.asarray(val_list)
+
+def tests(amount, graph, depth=None, func=tools.sec_larg_eig):
+    ran_result = random_test(graph, depth, func)
+    #gre_result = greedy_test(graph, depth, func)
+
+    for i in range(amount):
+        ran_result += random_test(graph, depth, func)
+        #gre_result += greedy_test(graph, depth, func)
+    
+    ran_result /= amount
+    #gre_result /= amount
+    return ran_result
 
 
 
-
-
-def print_details(eigenvalue, graph, best_edge=None, print_it=True):
+def print_details(value, graph, best_edge=None, print_it=True):
     total_cost = tools.get_total_cost(graph)
     
-    print('LAMBDA2: ' + str(eigenvalue) + '; TOTAL COST: ' + str(total_cost))
+    print('VALUE: ' + str(value) + '; TOTAL COST: ' + str(total_cost))
 
     if print_it:
         tools.print_graph(graph, best_edge)
@@ -72,13 +92,16 @@ def print_details(eigenvalue, graph, best_edge=None, print_it=True):
 def main():
     graph = getattr(graphs, sys.argv[1])
     depth = int(sys.argv[2]) if len(sys.argv) > 2 else None
+    func = tools.sec_larg_eig
 
-    # exh_list = exhaustive_test(graph, depth)    
-    gre_list = greedy_test(graph, depth)
+    exh_list = exhaustive_test(graph, depth, func=func)  
+    gre_list = greedy_test(graph, depth, func=func)  
+    ran_list = tests(1000, graph, depth=None, func=func)
     x_axis = [i for i in range(len(gre_list))]
 
-    #plt.plot(x_axis, exh_list, label="exhaustive")
+    plt.plot(x_axis, exh_list, label="exhaustive")
     plt.plot(x_axis, gre_list, label="greedy")
+    plt.plot(x_axis, ran_list, label="random")
     plt.title(sys.argv[1])
     plt.legend()
     plt.show()

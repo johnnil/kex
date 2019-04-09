@@ -5,6 +5,7 @@ import networkx as nx
 from copy import deepcopy
 import random
 import math
+import scipy
 
 ### Update values ###
 
@@ -56,8 +57,8 @@ def generate_A(graph):
 
 def calc_distance(graph, pos):
     #overhead cost of preparing any signal
-    overhead = 100
-    return [overhead + np.linalg.norm(np.array(pos[v1]) - np.array(pos[v2])) for (v1, v2) in graph.edges()]
+    #overhead = 100
+    return [np.linalg.norm(np.array(pos[v1]) - np.array(pos[v2])) for (v1, v2) in graph.edges()]
 
 def randomize_pos_and_cost(john):
     pos = generate_pos(john)
@@ -106,11 +107,14 @@ def get_total_cost(graph):
 
     return total_cost
 
+def summarize(graph, A):
+    return sec_larg_eig(graph, A) * get_total_cost(graph)
+
 ### Matrix functions ###
 
-def sec_larg_eig(A):
+def sec_larg_eig(graph, A):
     eig_list, _  = np.linalg.eig(A)
-    return second_largest(eig_list)
+    return float(second_largest(eig_list))
 
 ### Prints and plots ###
 
