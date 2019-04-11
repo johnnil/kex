@@ -1,6 +1,4 @@
 import numpy as np
-import matplotlib#.pyplot as plt
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import sys
 import networkx as nx
@@ -20,6 +18,7 @@ def exhaustive_test(graph, depth=None, func=tools.sec_larg_eig):
     if depth != None:
         s_largest, best_graph, best_edge, _ = algs.exhaustive(graph, A, depth, func=func)
         print_details(s_largest, best_graph, best_edge)
+        print(str(len(best_edge)) + ': ' + str(best_edge))
     else:
         all_edges = tools.generate_all_edges(graph, A)
         n = len(all_edges)
@@ -29,11 +28,10 @@ def exhaustive_test(graph, depth=None, func=tools.sec_larg_eig):
 
         for i in range(1, n + 1):
             val, best_graph, best_edge, _ = algs.exhaustive(graph, A, i, func=func)
-            #print(best_edge)
             print_details(val, best_graph, best_edge, print_it=False)
             val_list.append(val)
             
-    return val_list
+        return val_list
 
 ### Greedy search test ###
 def greedy_test(graph, depth=None, func=tools.sec_larg_eig):
