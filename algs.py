@@ -6,10 +6,6 @@ from itertools import combinations
 ### Exhaustive: Finding best edge(s) ###
 
 def exhaustive(graph_0, A_0, depth=1, all_edges=None, min_x=math.inf, func=tools.sec_larg_eig):
-    # best_graph = graph_0
-    # best_edge_s = []
-    # best_A = A_0
-
     if (all_edges == None):
         all_edges = tools.generate_all_edges(graph_0, A_0)
     
