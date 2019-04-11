@@ -110,6 +110,17 @@ def get_total_cost(graph):
 def summarize(graph, A):
     return sec_larg_eig(graph, A) * get_total_cost(graph)
 
+def total_energy(graph, A):
+    #energy consumption of one iteration
+    energy = get_total_cost(graph)
+    #error = 0.001
+    eig = sec_larg_eig(graph, A)
+    if(eig == 0):
+        # complete graph: only one iteration is needed
+        return energy
+
+    return energy/(-1*math.log(eig))
+
 ### Matrix functions ###
 
 def sec_larg_eig(graph, A):

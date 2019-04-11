@@ -1,4 +1,6 @@
 import numpy as np
+import matplotlib#.pyplot as plt
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import sys
 import networkx as nx
@@ -27,7 +29,7 @@ def exhaustive_test(graph, depth=None, func=tools.sec_larg_eig):
 
         for i in range(1, n + 1):
             val, best_graph, best_edge, _ = algs.exhaustive(graph, A, i, func=func)
-            print(best_edge)
+            #print(best_edge)
             print_details(val, best_graph, best_edge, print_it=False)
             val_list.append(val)
             
@@ -94,11 +96,11 @@ def print_details(value, graph, best_edge=None, print_it=True):
 def main():
     graph = getattr(graphs, sys.argv[1])
     depth = int(sys.argv[2]) if len(sys.argv) > 2 else None
-    func = tools.summarize
+    func = tools.total_energy
 
     exh_list = exhaustive_test(graph, depth, func=func)  
     gre_list = greedy_test(graph, depth, func=func)  
-    ran_list = tests(1000, graph, depth=None, func=func)
+    ran_list = tests(1000, graph, depth, func=func)
     x_axis = [i for i in range(len(gre_list))]
 
     plt.plot(x_axis, exh_list, label="exhaustive")
