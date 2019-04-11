@@ -27,6 +27,7 @@ def exhaustive_test(graph, depth=None, func=tools.sec_larg_eig):
 
         for i in range(1, n + 1):
             val, best_graph, best_edge, _ = algs.exhaustive(graph, A, i, func=func)
+            print(best_edge)
             print_details(val, best_graph, best_edge, print_it=False)
             val_list.append(val)
             
@@ -76,6 +77,7 @@ def tests(amount, graph, depth=None, func=tools.sec_larg_eig):
     
     ran_result /= amount
     #gre_result /= amount
+
     return ran_result
 
 
@@ -92,7 +94,7 @@ def print_details(value, graph, best_edge=None, print_it=True):
 def main():
     graph = getattr(graphs, sys.argv[1])
     depth = int(sys.argv[2]) if len(sys.argv) > 2 else None
-    func = tools.sec_larg_eig
+    func = tools.summarize
 
     exh_list = exhaustive_test(graph, depth, func=func)  
     gre_list = greedy_test(graph, depth, func=func)  
