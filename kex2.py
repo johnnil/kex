@@ -1,6 +1,4 @@
 import numpy as np
-import matplotlib#.pyplot as plt
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import sys
 import networkx as nx
@@ -33,7 +31,7 @@ def exhaustive_test(graph, depth=None, func=tools.sec_larg_eig):
             print_details(val, best_graph, best_edge, print_it=False)
             val_list.append(val)
             
-    return val_list
+    return np.asarray(val_list)
 
 ### Greedy search test ###
 def greedy_test(graph, depth=None, func=tools.sec_larg_eig):
@@ -69,18 +67,39 @@ def random_test(graph, depth=None, func=tools.sec_larg_eig):
     
     return np.asarray(val_list)
 
+### Flow search test ###
+def flow_test(graph, depth, func=tools.total_energy):
+    A = tools.generate_A(graph)
+    val_list = [func(graph, A)]
+    if depth == None:
+        depth = len(tools.generate_all_edges(graph, A))+1
+    for i in range(1, depth):
+        graph, A = algs.flow(graph, A, func=func)
+        val = func(graph, A)
+        val_list.append(val)
+    return np.asarray(val_list)
+
 def tests(amount, graph, depth=None, func=tools.sec_larg_eig):
+    exh_result = exhaustive_test(graph, depth, func)
+    gre_result = greedy_test(graph, depth, func)
     ran_result = random_test(graph, depth, func)
-    #gre_result = greedy_test(graph, depth, func)
+    flo_result = flow_test(graph, depth, func)
 
     for i in range(amount):
-        ran_result += random_test(graph, depth, func)
-        #gre_result += greedy_test(graph, depth, func)
-    
-    ran_result /= amount
-    #gre_result /= amount
+        # Reinitialize graph
+        tools.randomize_pos_and_cost(graph)
 
-    return ran_result
+        exh_result += exhaustive_test(graph, depth, func)
+        gre_result += greedy_test(graph, depth, func)
+        ran_result += random_test(graph, depth, func)
+        flo_result += flow_test(graph, depth, func)
+
+    exh_result /= amount
+    gre_result /= amount
+    ran_result /= amount
+    flo_result /= amount
+
+    return exh_result, gre_result, ran_result, flo_result
 
 
 
@@ -98,14 +117,16 @@ def main():
     depth = int(sys.argv[2]) if len(sys.argv) > 2 else None
     func = tools.total_energy
 
-    exh_list = exhaustive_test(graph, depth, func=func)  
-    gre_list = greedy_test(graph, depth, func=func)  
-    ran_list = tests(1000, graph, depth, func=func)
+    #exh_list = exhaustive_test(graph, depth, func=func)  
+    #gre_list = greedy_test(graph, depth, func=func)  
+    exh_list, gre_list, ran_list, flo_list = tests(100, graph, depth, func=func)
+    #flo_list = flow_test(graph, depth, func=func)
     x_axis = [i for i in range(len(gre_list))]
 
-    plt.plot(x_axis, exh_list, label="exhaustive")
-    plt.plot(x_axis, gre_list, label="greedy")
-    plt.plot(x_axis, ran_list, label="random")
+    plt.plot(x_axis, exh_list, label="Exhaustive")
+    plt.plot(x_axis, gre_list, label="Greedy")
+    plt.plot(x_axis, ran_list, label="Random")
+    plt.plot(x_axis, flo_list, label="Flow")
     plt.title(sys.argv[1])
     plt.legend()
     plt.show()

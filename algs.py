@@ -70,4 +70,20 @@ def random(graph, A, depth=1, func=tools.sec_larg_eig):
 
     return val, graph, edge_list, A
 
-
+## Biggest to smallest (largest flow) ##
+def flow(graph, A, func=tools.total_energy):
+    # nodes with least and most neighbours
+    all_edges = tools.generate_all_edges(graph, A)
+    max_dist = 0
+    n1 = 0
+    n2 = 0
+    for i in all_edges:
+        distance = tools.calc_diff(i[0], i[1], graph)
+        if (max_dist < distance):
+            max_dist = distance
+            n1 = i[0]
+            n2 = i[1]
+    
+    newGraph, newA = tools.add_edge(n1, n2, A, graph)
+    return newGraph, newA
+    

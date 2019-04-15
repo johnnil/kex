@@ -93,7 +93,6 @@ def add_edge(v1, v2, A_0, graph_0):
     
     update_row(v1, A, graph)
     update_row(v2, A, graph)
-
     return graph, A
 
 ### Cost functions ###
@@ -113,13 +112,13 @@ def summarize(graph, A):
 def total_energy(graph, A):
     #energy consumption of one iteration
     energy = get_total_cost(graph)
-    #error = 0.001
+    error = 0.001
     eig = sec_larg_eig(graph, A)
     if(eig == 0):
         # complete graph: only one iteration is needed
         return energy
 
-    return energy/(-1*math.log(eig))
+    return energy*(math.log(error)/math.log(eig))
 
 ### Matrix functions ###
 
@@ -156,3 +155,8 @@ def second_largest(l):
             largest2 = i
     
     return largest2
+
+def calc_diff(n1, n2, graph):
+    a = len(list(graph.neighbors(n1)))
+    b = len(list(graph.neighbors(n2)))
+    return abs(a-b)
