@@ -1,41 +1,33 @@
 import tools
 import math
 import random as rn
+from itertools import combinations
 
 ### Exhaustive: Finding best edge(s) ###
 
 def exhaustive(graph_0, A_0, depth=1, all_edges=None, min_x=math.inf, func=tools.sec_larg_eig):
-    best_graph = graph_0
-    best_edge_s = None
-    best_A = A_0
-
     if (all_edges == None):
         all_edges = tools.generate_all_edges(graph_0, A_0)
+    
+    combs = combinations(all_edges, depth)
 
-    for i, e in enumerate(all_edges):
-        # add potential edge
-        graph, A = tools.add_edge(e[0], e[1], A_0, graph_0)
+    for i in list(combs):
+        graph = graph_0
+        A = A_0
+
+        for e in i:
+            graph, A = tools.add_edge(e[0], e[1], A, graph)
+        
         x = func(graph, A)
-
-        if depth > 1 and i + 1 < len(all_edges):
-            x, graph, e2, A = exhaustive(graph, A, depth - 1, all_edges[i + 1:], func=func)
-            
-            # Started as a debug statement now we here
-            if e2 != None:
-                e2.append(e)
-                e = e2
 
         # Better or worse?
         if x < min_x:
             min_x = x
             best_graph = graph
-            best_edge_s = e if type(e) == list else [e]
+            best_edge_s = i
             best_A = A
 
-    if best_edge_s == None:
-        print("here")
-
-    return min_x, best_graph, best_edge_s, best_A
+    return min_x, best_graph, list(best_edge_s), best_A
 
 ### Greedy ###
 

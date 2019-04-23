@@ -101,8 +101,6 @@ def tests(amount, graph, depth=None, func=tools.sec_larg_eig):
 
     return exh_result, gre_result, ran_result, flo_result
 
-
-
 def print_details(value, graph, best_edge=None, print_it=True):
     total_cost = tools.get_total_cost(graph)
     
@@ -119,7 +117,7 @@ def main():
 
     #exh_list = exhaustive_test(graph, depth, func=func)  
     #gre_list = greedy_test(graph, depth, func=func)  
-    exh_list, gre_list, ran_list, flo_list = tests(100, graph, depth, func=func)
+    exh_list, gre_list, ran_list, flo_list = tests(50, graph, depth, func=func)
     #flo_list = flow_test(graph, depth, func=func)
     x_axis = [i for i in range(len(gre_list))]
 
