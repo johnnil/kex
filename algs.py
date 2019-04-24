@@ -1,7 +1,9 @@
 import tools
 import math
 import random as rn
+import numpy
 from itertools import combinations
+from copy import deepcopy
 
 ### Exhaustive: Finding best edge(s) ###
 
@@ -79,3 +81,55 @@ def flow(graph, A, func=tools.total_energy):
     newGraph, newA = tools.add_edge(n1, n2, A, graph)
     return newGraph, newA
     
+## Simulated Annealing ##
+# Returns a neighbouring state
+def neighbour(graph, A_0, removable_0, addable_0):
+    removable = deepcopy(removable_0)
+    addable = deepcopy(addable_0)
+    #graph = deepcopy(graph_0)
+    # Swap a non-base edge with an addable at random
+    old = removable.pop(rn.randint(0,len(removable)-1))
+    new = addable.pop(rn.randint(0,len(addable)-1))
+    addable.append(old)
+    removable.append(new)
+    graph, A = tools.remove_edge(old[0], old[1], A_0, graph)
+    graph, A = tools.add_edge(new[0], new[1], A, graph)
+    #print("Removable in neighb: "+str(removable))
+    
+    return [graph, A, removable, addable]
+
+def prob(e1, e2, T):
+    val = 0
+    if(e2 < e1):
+        val = 1
+    else:
+        val = math.exp(-(e2 - e1)/T)
+    return val
+
+def anneal(graph_0, A, k, func=tools.total_energy):
+    graph = deepcopy(graph_0)
+    addable = tools.generate_all_edges(graph, A)
+
+    removable = []
+    for _ in range(k):
+        # Add an edge to the graph at random
+        edge = addable.pop(rn.randint(0, len(addable)-1))
+        removable.append(edge)
+        graph, A = tools.add_edge(edge[0], edge[1], A, graph)
+
+    print(removable)
+    #state
+    T = 1.0
+    Tmin = 0.0001
+    alpha = 0.5
+    s = [graph, A, removable, addable]
+    if (len(addable) == 0):
+        return s
+    while (T > Tmin):
+        snew = neighbour(s[0],s[1],s[2],s[3])
+
+        if (prob(func(s[0], s[1]), func(snew[0], snew[1]), T) >= numpy.random.random_sample()):
+            s = snew
+
+        T = T*alpha
+    return s

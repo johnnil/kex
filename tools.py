@@ -95,6 +95,19 @@ def add_edge(v1, v2, A_0, graph_0):
     update_row(v2, A, graph)
     return graph, A
 
+def remove_edge(v1, v2, A_0, graph_0):
+    # No side effects pls
+    graph = deepcopy(graph_0)
+    A = deepcopy(A_0)
+
+    graph.remove_edge(v1, v2)
+    A[v1, v2] = 0
+    A[v2, v1] = 0
+    
+    update_row(v1, A, graph)
+    update_row(v2, A, graph)
+    return graph, A
+
 ### Cost functions ###
 
 def get_total_cost(graph):
