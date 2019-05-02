@@ -12,23 +12,20 @@ import algs
 def exhaustive_test(graph, depth=None, func=tools.sec_larg_eig):
     A = tools.generate_A(graph)
     init_val = func(graph, A)
-    eig = 1 # initial eig
     val_list = []
 
     if depth != None:
         s_largest, best_graph, best_edge, _ = algs.exhaustive(graph, A, depth, func=func)
-        print_details(s_largest, best_graph, best_edge)
+        #print_details(s_largest, best_graph, best_edge)
     else:
         all_edges = tools.generate_all_edges(graph, A)
         n = len(all_edges)
-        top_n = 0
-        print_details(init_val, graph, None, print_it=False)
+        #print_details(init_val, graph, None, print_it=False)
         val_list.append(init_val)
 
         for i in range(1, n + 1):
             val, best_graph, best_edge, _ = algs.exhaustive(graph, A, i, func=func)
-            #print(best_edge)
-            print_details(val, best_graph, best_edge, print_it=False)
+            #print_details(val, best_graph, best_edge, print_it=False)
             val_list.append(val)
             
     return np.asarray(val_list)
@@ -60,7 +57,7 @@ def random_test(graph, depth=None, func=tools.sec_larg_eig):
     if depth == None:
         depth = len(all_edges)+1
 
-    for i in range(1, depth):
+    for _ in range(1, depth):
         val, graph, edge_list, A = algs.random(graph, A, func=func)
         #print_details(val, graph, edge_list, print_it=False)
         val_list.append(val)
@@ -92,16 +89,20 @@ def anneal_test(graph_0, depth, func=tools.total_energy):
         A = state[1]
         val = func(graph, A)
         val_list.append(val)
+    #Add full graph because of depth-1
+
+
     return np.asarray(val_list)
 
 def tests(amount, graph, depth=None, func=tools.sec_larg_eig):
     exh_result = exhaustive_test(graph, depth, func)
+    #exh_result = 1
     gre_result = greedy_test(graph, depth, func)
     ran_result = random_test(graph, depth, func)
     flo_result = flow_test(graph, depth, func)
     ann_result = anneal_test(graph, depth, func)
 
-    for i in range(amount):
+    for _ in range(amount):
         # Reinitialize graph
         tools.randomize_pos_and_cost(graph)
 
@@ -111,6 +112,7 @@ def tests(amount, graph, depth=None, func=tools.sec_larg_eig):
         flo_result += flow_test(graph, depth, func)
         ann_result += anneal_test(graph, depth, func)
 
+    amount += 1
     exh_result /= amount
     gre_result /= amount
     ran_result /= amount
@@ -132,10 +134,11 @@ def main():
     graph = getattr(graphs, sys.argv[1])
     depth = int(sys.argv[2]) if len(sys.argv) > 2 else None
     func = tools.total_energy
+    #func = tools.sec_larg_eig
 
     #exh_list = exhaustive_test(graph, depth, func=func)  
     #gre_list = greedy_test(graph, depth, func=func)  
-    exh_list, gre_list, ran_list, flo_list, ann_list = tests(50, graph, depth, func=func)
+    exh_list, gre_list, ran_list, flo_list, ann_list = tests(1, graph, depth, func=func)
     #flo_list = flow_test(graph, depth, func=func)
     x_axis = [i for i in range(len(gre_list))]
 
@@ -144,7 +147,9 @@ def main():
     plt.plot(x_axis, ran_list, label="Random")
     plt.plot(x_axis, flo_list, label="Flow")
     plt.plot(x_axis, ann_list, label="Simulated Annealing")
-    plt.title(sys.argv[1])
+    plt.title("Graph: " + str(sys.argv[1]))
+    plt.xlabel('Number of added edges')
+    plt.ylabel('Energy cost')
     plt.legend()
     plt.show()
 

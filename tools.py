@@ -137,6 +137,7 @@ def total_energy(graph, A):
 
 def sec_larg_eig(graph, A):
     eig_list, _  = np.linalg.eig(A)
+
     return float(second_largest(eig_list))
 
 ### Prints and plots ###

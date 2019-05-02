@@ -86,7 +86,6 @@ def flow(graph, A, func=tools.total_energy):
 def neighbour(graph, A_0, removable_0, addable_0):
     removable = deepcopy(removable_0)
     addable = deepcopy(addable_0)
-    #graph = deepcopy(graph_0)
     # Swap a non-base edge with an addable at random
     old = removable.pop(rn.randint(0,len(removable)-1))
     new = addable.pop(rn.randint(0,len(addable)-1))
@@ -117,19 +116,20 @@ def anneal(graph_0, A, k, func=tools.total_energy):
         removable.append(edge)
         graph, A = tools.add_edge(edge[0], edge[1], A, graph)
 
-    print(removable)
     #state
     T = 1.0
     Tmin = 0.0001
-    alpha = 0.5
+    alpha = 0.9
     s = [graph, A, removable, addable]
     if (len(addable) == 0):
         return s
     while (T > Tmin):
-        snew = neighbour(s[0],s[1],s[2],s[3])
+        # Multiple samples
+        for _ in range(10):
+            snew = neighbour(s[0],s[1],s[2],s[3])
 
-        if (prob(func(s[0], s[1]), func(snew[0], snew[1]), T) >= numpy.random.random_sample()):
-            s = snew
+            if (prob(func(s[0], s[1]), func(snew[0], snew[1]), T) >= numpy.random.random_sample()):
+                s = snew
 
-        T = T*alpha
+            T = T*alpha
     return s
