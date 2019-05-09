@@ -9,7 +9,7 @@ from copy import deepcopy
 
 def exhaustive(graph_0, A_0, depth=1, all_edges=None, min_x=math.inf, func=tools.sec_larg_eig):
     if (all_edges == None):
-        all_edges = tools.generate_all_edges(graph_0, A_0)
+        all_edges = tools.generate_all_edges_c(graph_0, A_0)
     
     combs = combinations(all_edges, depth)
 
@@ -52,7 +52,7 @@ def greedy(graph, A, depth=1, func=tools.sec_larg_eig):
 def random(graph, A, depth=1, func=tools.sec_larg_eig):
     edge_list = []
     #all possible edges and put them in a magician's hat
-    edge_hat = tools.generate_all_edges(graph, A)
+    edge_hat = tools.generate_all_edges_c(graph, A)
 
     for i in range(depth):
         #add a non-existing edge at random
@@ -67,13 +67,13 @@ def random(graph, A, depth=1, func=tools.sec_larg_eig):
 ## Biggest to smallest (largest flow) ##
 def flow(graph, A, func=tools.total_energy):
     # nodes with least and most neighbours
-    all_edges = tools.generate_all_edges(graph, A)
+    all_edges = tools.generate_all_edges_c(graph, A)
     max_dist = 0
     n1 = 0
     n2 = 0
     for i in all_edges:
         distance = tools.calc_diff(i[0], i[1], graph)
-        if (max_dist < distance):
+        if (max_dist <= distance):
             max_dist = distance
             n1 = i[0]
             n2 = i[1]
@@ -107,7 +107,7 @@ def prob(e1, e2, T):
 
 def anneal(graph_0, A, k, func=tools.total_energy):
     graph = deepcopy(graph_0)
-    addable = tools.generate_all_edges(graph, A)
+    addable = tools.generate_all_edges_c(graph, A)
 
     removable = []
     for _ in range(k):

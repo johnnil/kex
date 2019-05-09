@@ -37,6 +37,10 @@ def generate_all_edges(graph, A):
     n = graph.number_of_nodes()
     return [(i, j) for i in range(n) for j in range(i, n) if (A[i, j] == 0 and i != j)]
 
+def generate_all_edges_c(graph, A):
+    n = graph.number_of_nodes()
+    return [(i, j) for i in range(n) for j in range(i, n) if (A[i, j] == 0 and i != j and get_dist(graph, i, j) < 1000)]
+
 # Deprecated
 def generate_all_edgepairs(n, A):
     all_edges = generate_all_edges(n, A)
@@ -60,8 +64,15 @@ def calc_distance(graph, pos):
     #overhead = 100
     return [np.linalg.norm(np.array(pos[v1]) - np.array(pos[v2])) for (v1, v2) in graph.edges()]
 
-def randomize_pos_and_cost(john):
-    pos = generate_pos(john)
+def get_dist(graph, v1, v2):
+    v1_pos = graph.node[v1]['pos']
+    v2_pos = graph.node[v2]['pos']
+    return np.linalg.norm(np.array(v1_pos) - np.array(v2_pos))
+
+def randomize_pos_and_cost(john, pos=None):
+    if pos == None:
+        pos = generate_pos(john)
+    
     distance = calc_distance(john, pos)
     nodes = [i for i in range(john.number_of_nodes())]
 
@@ -126,12 +137,13 @@ def total_energy(graph, A):
     #energy consumption of one iteration
     energy = get_total_cost(graph)
     error = 0.001
+    eps = 0.0000000001
     eig = sec_larg_eig(graph, A)
-    if(eig == 0):
-        # complete graph: only one iteration is needed
-        return energy
+    # if(eig == 0):
+    #     # complete graph: only one iteration is needed
+    #     return energy
 
-    return energy*(math.log(error)/math.log(eig))
+    return energy * (math.log(error)/math.log(eig + eps))
 
 ### Matrix functions ###
 
@@ -142,7 +154,7 @@ def sec_larg_eig(graph, A):
 
 ### Prints and plots ###
 
-def print_graph(graph, edge=None):
+def print_graph(graph, name, edge=None):
     pos = nx.kamada_kawai_layout(graph)
     nx.draw_networkx_edges(graph, pos)
 
@@ -151,6 +163,8 @@ def print_graph(graph, edge=None):
 
     nx.draw_networkx_nodes(graph, pos)
     nx.draw_networkx_labels(graph, pos)
+    plt.axis('off')
+    plt.savefig(name)
     plt.show()
 
 
