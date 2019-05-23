@@ -4,12 +4,14 @@ import random as rn
 import numpy
 from itertools import combinations
 from copy import deepcopy
+import numpy as np
+import time
 
 ### Exhaustive: Finding best edge(s) ###
 
 def exhaustive(graph_0, A_0, depth=1, all_edges=None, min_x=math.inf, func=tools.sec_larg_eig):
     if (all_edges == None):
-        all_edges = tools.generate_all_edges_c(graph_0, A_0)
+        all_edges = tools.generate_all_edges(graph_0, A_0)
     
     combs = combinations(all_edges, depth)
 
@@ -80,6 +82,32 @@ def flow(graph, A, func=tools.total_energy):
     
     newGraph, newA = tools.add_edge(n1, n2, A, graph)
     return newGraph, newA
+
+
+## Find star graph
+def stargaze(graph, A, func=tools.total_energy):
+    all_edges = tools.generate_all_edges(graph, A)
+    degree_list = sorted(graph.degree, key=lambda x: x[1], reverse=True)
+    val_list = [func(graph, A)]
+
+    highest = degree_list[0][0]
+    while len(all_edges) > 0:
+        while graph.degree[highest] == len(graph.nodes) - 1:
+            degree_list.pop(0)[0]
+            highest = degree_list[0][0]
+
+        graph, A = starhelper(all_edges, val_list, highest, func, graph, A)
+                
+    
+    return np.asarray(val_list)
+
+def starhelper(all_edges, val_list, highest, func, graph, A):
+    for e in all_edges:
+        if e[0] == highest or e[1] == highest:
+            graph, A = tools.add_edge(e[0], e[1], A, graph)
+            val_list.append(func(graph, A))
+            all_edges.remove(e)
+            return graph, A
     
 ## Simulated Annealing ##
 # Returns a neighbouring state
@@ -107,7 +135,7 @@ def prob(e1, e2, T):
 
 def anneal(graph_0, A, k, func=tools.total_energy):
     graph = deepcopy(graph_0)
-    addable = tools.generate_all_edges_c(graph, A)
+    addable = tools.generate_all_edges(graph, A)
 
     removable = []
     for _ in range(k):

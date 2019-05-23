@@ -62,3 +62,8 @@ attrs = {0: {'pos': (500, 500)},
 pos = [(500, 500), (500, 1000), (900, 750), (900, 250), (500, 0), (100, 250), (100, 750)]
 tools.randomize_pos_and_cost(star_6, pos)
 ####
+
+####
+# random
+random = nx.fast_gnp_random_graph(50, 0.2)
+tools.randomize_pos_and_cost(random)

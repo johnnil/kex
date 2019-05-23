@@ -7,6 +7,7 @@ import random
 import tools
 import graphs
 import algs
+from sklearn import preprocessing
 
 ### Exhaustive search test ###
 def exhaustive_test(graph, depth=None, func=tools.sec_larg_eig):
@@ -25,7 +26,9 @@ def exhaustive_test(graph, depth=None, func=tools.sec_larg_eig):
 
         for i in range(1, n + 1):
             val, best_graph, best_edge, _ = algs.exhaustive(graph, A, i, func=func)
-            #print_details(val, best_graph, best_edge, print_it=False)
+            #print_details(val, best_graph, best_edge, print_it=True)
+            print(best_edge)
+            #tools.print_graph(best_graph, "2-star", best_edge)
             val_list.append(val)
             
     return np.asarray(val_list)
@@ -94,9 +97,13 @@ def anneal_test(graph_0, depth, func=tools.total_energy):
 
     return np.asarray(val_list)
 
+def star_test(graph, func=tools.total_energy):
+    A = tools.generate_A(graph)
+    return algs.stargaze(graph, A, func)
+
 def tests(amount, graph, depth=None, func=tools.sec_larg_eig):
-    exh_result = exhaustive_test(graph, depth, func)
-    #exh_result = 1
+    #exh_result = exhaustive_test(graph, depth, func)
+    exh_result = 1
     gre_result = greedy_test(graph, depth, func)
     ran_result = random_test(graph, depth, func)
     flo_result = flow_test(graph, depth, func)
@@ -106,18 +113,20 @@ def tests(amount, graph, depth=None, func=tools.sec_larg_eig):
         # Reinitialize graph
         #tools.randomize_pos_and_cost(graph)
 
-        exh_result += exhaustive_test(graph, depth, func)
-        gre_result += greedy_test(graph, depth, func)
+        #exh_result += exhaustive_test(graph, depth, func)
+        #gre_result += greedy_test(graph, depth, func)
         ran_result += random_test(graph, depth, func)
-        flo_result += flow_test(graph, depth, func)
+        #flo_result += flow_test(graph, depth, func)
         ann_result += anneal_test(graph, depth, func)
+        #star_result += star_test(graph, func)
 
     amount += 1
-    exh_result /= amount
-    gre_result /= amount
+    #exh_result /= amount
+    #gre_result /= amount
     ran_result /= amount
-    flo_result /= amount
+    #flo_result /= amount
     ann_result /= amount
+    #star_result /= amount
 
     return exh_result, gre_result, ran_result, flo_result, ann_result
 
@@ -141,8 +150,6 @@ def name_conversion(name):
     elif name == 'maze':
         return 'Maze'
 
-
-
 def main():
     graph = getattr(graphs, sys.argv[1])
     depth = int(sys.argv[2]) if len(sys.argv) > 2 else None
@@ -153,14 +160,21 @@ def main():
 
     #exh_list = exhaustive_test(graph, depth, func=func)  
     #gre_list = greedy_test(graph, depth, func=func)  
-    exh_list, gre_list, ran_list, flo_list, ann_list = tests(1, graph, depth, func=func)
+    exh_list, gre_list, ran_list, flo_list, ann_list = tests(50, graph, depth, func=func)
     #flo_list = flow_test(graph, depth, func=func)
-    x_axis = [i for i in range(len(gre_list))]
+    #star_list = star_test(graph, func)
 
-    plt.plot(x_axis, exh_list, label="Exhaustive")
+    v = np.asarray([np.mean(exh_list), np.mean(gre_list), np.mean(flo_list), np.mean(ann_list)])
+    print(v)
+    v /= np.linalg.norm(v)
+    print(v)
+
+    x_axis = [i for i in range(len(ann_list))]
+
+    #plt.plot(x_axis, exh_list, label="Exhaustive")
     plt.plot(x_axis, gre_list, label="Greedy")
     plt.plot(x_axis, ran_list, label="Random")
-    plt.plot(x_axis, flo_list, label="Flow")
+    plt.plot(x_axis, flo_list, label="Degree Difference")
     plt.plot(x_axis, ann_list, label="Simulated Annealing")
     plt.title("Graph: " + name_conversion(sys.argv[1]))
     plt.xlabel('Number of added edges')
