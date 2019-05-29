@@ -11,7 +11,7 @@ import time
 
 def exhaustive(graph_0, A_0, depth=1, all_edges=None, min_x=math.inf, func=tools.sec_larg_eig):
     if (all_edges == None):
-        all_edges = tools.generate_all_edges(graph_0, A_0)
+        all_edges = tools.generate_all_edges_c(graph_0, A_0)
     
     combs = combinations(all_edges, depth)
 
@@ -135,7 +135,7 @@ def prob(e1, e2, T):
 
 def anneal(graph_0, A, k, func=tools.total_energy):
     graph = deepcopy(graph_0)
-    addable = tools.generate_all_edges(graph, A)
+    addable = tools.generate_all_edges_c(graph, A)
 
     removable = []
     for _ in range(k):

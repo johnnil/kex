@@ -117,7 +117,7 @@ def tests(amount, graph, depth=None, func=tools.sec_larg_eig):
         #gre_result += greedy_test(graph, depth, func)
         ran_result += random_test(graph, depth, func)
         #flo_result += flow_test(graph, depth, func)
-        ann_result += anneal_test(graph, depth, func)
+        #ann_result += anneal_test(graph, depth, func)
         #star_result += star_test(graph, func)
 
     amount += 1
@@ -125,7 +125,7 @@ def tests(amount, graph, depth=None, func=tools.sec_larg_eig):
     #gre_result /= amount
     ran_result /= amount
     #flo_result /= amount
-    ann_result /= amount
+    #ann_result /= amount
     #star_result /= amount
 
     return exh_result, gre_result, ran_result, flo_result, ann_result
@@ -149,6 +149,8 @@ def name_conversion(name):
         return 'Star 15'
     elif name == 'maze':
         return 'Maze'
+    else:
+        return name
 
 def main():
     graph = getattr(graphs, sys.argv[1])
@@ -164,7 +166,7 @@ def main():
     #flo_list = flow_test(graph, depth, func=func)
     #star_list = star_test(graph, func)
 
-    v = np.asarray([np.mean(exh_list), np.mean(gre_list), np.mean(flo_list), np.mean(ann_list)])
+    v = np.asarray([np.mean(ran_list), np.mean(gre_list), np.mean(flo_list), np.mean(ann_list)])
     print(v)
     v /= np.linalg.norm(v)
     print(v)

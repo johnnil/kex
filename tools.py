@@ -39,7 +39,7 @@ def generate_all_edges(graph, A):
 
 def generate_all_edges_c(graph, A):
     n = graph.number_of_nodes()
-    return [(i, j) for i in range(n) for j in range(i, n) if (A[i, j] == 0 and i != j and get_dist(graph, i, j) < 1400)]
+    return [(i, j) for i in range(n) for j in range(i, n) if (A[i, j] == 0 and i != j and get_dist(graph, i, j) < 1000)]
 
 # Deprecated
 def generate_all_edgepairs(n, A):
